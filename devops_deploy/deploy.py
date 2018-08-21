@@ -333,7 +333,7 @@ for vm in control_vms:
       print e
       sys.exit(1)
    print "Built %s with ID: %s\n\n"%(vm['vm'],r.text)
-'''
+
 #createing the pipeline project
 print "Creating the Devops BU %s Pipeline project."%(zsbuname)
 pipe_project_id = None
@@ -555,4 +555,3 @@ for project in projects:
        print e
        sys.exit(1)
     print "Built %s instance with ID: %s\n\n"%(project,r.text)
-'''
