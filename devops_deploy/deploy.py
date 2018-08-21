@@ -176,7 +176,7 @@ except Exception as e:
 print "Created the basic security group with ID: %s.\n\n"%(j['security_group']['id'])
 
 #add the ports to the security group
-ports = [{'icmp':'null'},{'tcp':'22'},{'tcp':'80'},{'tcp':'443'}]
+ports = [{'icmp':'null'},{'tcp':'22'},{'tcp':'80'},{'tcp':'443'},{'tcp':'8443'}]
 for port in ports:
     try:
         send_url = baseurl + '/neutron/v2.0/security-group-rules'
@@ -314,21 +314,26 @@ except Exception as e:
     sys.exit(1)
 print "Updated the DevOps default network, ID: %s.\n\n"%(network_id)
 
-control_vms = ['Ansible Control','OpenShift Control','Cloudforms']
+control_vms = [
+   {'vm':'Ansible Control','code':'IyEvYmluL2Jhc2gKCmlmIFsgLWYgJy9ldGMvcmVkaGF0LXJlbGVhc2UnIF07IHRoZW4KCXl1bSBpbnN0YWxsIC15IGVwZWwtcmVsZWFzZQoJeXVtIGluc3RhbGwgLXkgZ2l0Cgl5dW0gaW5zdGFsbCAteSBlYXN5X2luc3RhbGwKCgllYXN5X2luc3RhbGwgcGlwCgoJcGlwIGluc3RhbGwgLS11cGdyYWRlIGFuc2libGUgMj4mMQplbHNlCglhcHQtZ2V0IHVwZGF0ZSAteQoJYXB0LWdldCBpbnN0YWxsIHNvZnR3YXJlLXByb3BlcnRpZXMtY29tbW9uIC15CglhcHQtYWRkLXJlcG9zaXRvcnkgcHBhOmFuc2libGUvYW5zaWJsZSAteQoJYXB0LWdldCB1cGRhdGUgLXkKCWFwdC1nZXQgaW5zdGFsbCBhbnNpYmxlIC15CmZp'},
+   {'vm':'OpenShift Control','code':None},
+   {'vm':'Cloudforms','code':'IyEvYmluL2Jhc2gKCmlmIFsgLWYgJy9ldGMvcmVkaGF0LXJlbGVhc2UnIF07IHRoZW4KCXl1bSBpbnN0YWxsIC15IGVwZWwtcmVsZWFzZQoJeXVtIGluc3RhbGwgLXkgZ2l0Cgl5dW0gaW5zdGFsbCAteSBlYXN5X2luc3RhbGwKCWVhc3lfaW5zdGFsbCBwaXAKCXl1bSBpbnN0YWxsIC15IHl1bS11dGlscyBkZXZpY2UtbWFwcGVyLXBlcnNpc3RlbnQtZGF0YSBsdm0yCgl5dW0tY29uZmlnLW1hbmFnZXIgLS1hZGQtcmVwbyBodHRwczovL2Rvd25sb2FkLmRvY2tlci5jb20vbGludXgvY2VudG9zL2RvY2tlci1jZS5yZXBvCgl5dW0gaW5zdGFsbCAteSBkb2NrZXItY2UKCXN5c3RlbWN0bCBzdGFydCBkb2NrZXIKCXN5c3RlbWN0bCBlbmFibGUgZG9ja2VyCglzZXJ2aWNlIGRvY2tlciBzdGFydAoJZG9ja2VyIHB1bGwgbWFuYWdlaXEvbWFuYWdlaXE6Z2FwcmluZGFzaHZpbGktNAoJZG9ja2VyIHJ1biAtLXByaXZpbGVnZWQgLWQgLXAgODQ0Mzo0NDMgbWFuYWdlaXEvbWFuYWdlaXE6Z2FwcmluZGFzaHZpbGktNAplbHNlCglhcHQtZ2V0IHVwZGF0ZSAteQoJYXB0LWdldCBpbnN0YWxsIGFwdC10cmFuc3BvcnQtaHR0cHMgY2EtY2VydGlmaWNhdGVzIGN1cmwgc29mdHdhcmUtcHJvcGVydGllcy1jb21tb24gLXkKCWN1cmwgLWZzU0wgaHR0cHM6Ly9kb3dubG9hZC5kb2NrZXIuY29tL2xpbnV4L3VidW50dS9ncGcgfCBzdWRvIGFwdC1rZXkgYWRkIC0KCWFwdC1rZXkgZmluZ2VycHJpbnQgMEVCRkNEODgKCWFkZC1hcHQtcmVwb3NpdG9yeSAiZGViIFthcmNoPWFtZDY0XSBodHRwczovL2Rvd25sb2FkLmRvY2tlci5jb20vbGludXgvdWJ1bnR1ICQobHNiX3JlbGVhc2UgLWNzKSBzdGFibGUiCglhcHQtZ2V0IHVwZGF0ZSAteQoJYXB0LWdldCBpbnN0YWxsIGRvY2tlci1jZSAteQoJc2VydmljZSBkb2NrZXIgc3RhcnQKCWRvY2tlciBwdWxsIG1hbmFnZWlxL21hbmFnZWlxOmdhcHJpbmRhc2h2aWxpLTQKCWRvY2tlciBydW4gLS1wcml2aWxlZ2VkIC1kIC1wIDg0NDM6NDQzIG1hbmFnZWlxL21hbmFnZWlxOmdhcHJpbmRhc2h2aWxpLTQKZmk='}
+   ]
+
 print "Creating control instances in DevOps Control project"
 
 for vm in control_vms:
-   print "Building %s instance."%(vm)
+   print "Building %s instance."%(vm['vm'])
    try:
        send_url = 'https://console.zerostack.com/v2/clusters/%s/projects/%s/vm'%(region_id,project_id)
-       data = '{"name":"%s","resources":{"server":{"type":"OS::Nova::Server","os_req":{"server":{"name":"%s","flavorRef":"4","block_device_mapping_v2":[{"device_type":"disk","disk_bus":"virtio","device_name":"/dev/vda","source_type":"volume","destination_type":"volume","delete_on_termination":true,"boot_index":"0","uuid":"{{.bootVol}}"}],"networks":[{"uuid":"%s"}],"security_groups":[{"name":"Basic"}],"metadata":{"created_by":"%s","owner":"DevOps Control","zs_internal_vm_ha":"false","delete_volume_on_termination":"true","isReservedFloatingIP":"false"},"user_data":"","delete_on_termination":true,"key_name":"%s"},"os:scheduler_hints":{"volume_id":"{{.bootVol}}"}}},"bootVol":{"type":"OS::Cinder::Volume","os_req":{"volume":{"availability_zone":null,"description":null,"size":20,"name":"bootVolume-ansible","volume_type":"relhighcap_type","disk_bus":"virtio","device_type":"disk","source_type":"image","device_name":"/dev/vda","bootable":true,"tenant_id":"%s","imageRef":"%s","enabled":true}}},"fip":{"type":"OS::Neutron::FloatingIP","os_req":{"floatingip":{"floating_network_id":"%s","tenant_id":"%s","port_id":"{{.port_id_0}}"}}}}}'%(vm,vm,network_id,username,devops_key,project_id,image_id,ext_net_id,project_id)
+       data = '{"name":"%s","resources":{"server":{"type":"OS::Nova::Server","os_req":{"server":{"name":"%s","flavorRef":"4","block_device_mapping_v2":[{"device_type":"disk","disk_bus":"virtio","device_name":"/dev/vda","source_type":"volume","destination_type":"volume","delete_on_termination":true,"boot_index":"0","uuid":"{{.bootVol}}"}],"networks":[{"uuid":"%s"}],"security_groups":[{"name":"Basic"}],"metadata":{"created_by":"%s","owner":"DevOps Control","zs_internal_vm_ha":"false","delete_volume_on_termination":"true","isReservedFloatingIP":"false"},"user_data":"%s","delete_on_termination":true,"key_name":"%s"},"os:scheduler_hints":{"volume_id":"{{.bootVol}}"}}},"bootVol":{"type":"OS::Cinder::Volume","os_req":{"volume":{"availability_zone":null,"description":null,"size":20,"name":"bootVolume-ansible","volume_type":"relhighcap_type","disk_bus":"virtio","device_type":"disk","source_type":"image","device_name":"/dev/vda","bootable":true,"tenant_id":"%s","imageRef":"%s","enabled":true}}},"fip":{"type":"OS::Neutron::FloatingIP","os_req":{"floatingip":{"floating_network_id":"%s","tenant_id":"%s","port_id":"{{.port_id_0}}"}}}}}'%(vm['vm'],vm['vm'],network_id,username,vm['code'],devops_key,project_id,image_id,ext_net_id,project_id)
        r = requests.post(send_url,verify = False,data = data,headers={"content-type":"application/json","X-Auth-Token":project_token})
        #j = json.loads(r.text)
    except Exception as e:
       print e
       sys.exit(1)
-   print "Built %s with ID: %s\n\n"%(vm,r.text)
-
+   print "Built %s with ID: %s\n\n"%(vm['vm'],r.text)
+'''
 #createing the pipeline project
 print "Creating the Devops BU %s Pipeline project."%(zsbuname)
 pipe_project_id = None
@@ -550,3 +555,4 @@ for project in projects:
        print e
        sys.exit(1)
     print "Built %s instance with ID: %s\n\n"%(project,r.text)
+'''
