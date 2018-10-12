@@ -1,12 +1,12 @@
 # Devops deploy prototype
-<br />
+
 Use this script to quickly deploy a "skeleton" devops environemnt.
-<br />
+
 ## What the script does:
-1. Creates a devops BU <br />
-2. Crates all of the projects layed out in the overview diagram <br />
-3. Creates all of the instances needed in the environemnt <br />
-4. Deploys a Jenkins and Gitlab App stack in the pipeline project <br />
+1. Creates a devops BU 
+2. Crates all of the projects layed out in the overview diagram
+3. Creates all of the instances needed in the environemnt
+4. Deploys a Jenkins and Gitlab App stack in the pipeline project
 
 ## What the script does not do:
 1. Configure the environemnt <br />
@@ -21,39 +21,23 @@ Use this script to quickly deploy a "skeleton" devops environemnt.
 
 ### Ex. RC file for cloud admin
 
-USER_NAME=adminuser
-
-USER_PASSWD=P@ssw0rd
-
-USER_DOMAIN=admin.local
-
-PROJECT_DOMAIN=admin.local
-
-USER_PROJECT=zs_default
-
-USER_REGION='Morrisville'
-
-ZS_CERT_FILE=/home/builder/keys/morrisville/zs_Certificate_ca.bundle
-export OS_AUTH_URL=https://console.zerostack.com/os/d89afe93-7355-4660-ad02-724db405e4f4/regions/73657ac1-8a38-4968-a912-f833de58f44d/keystone/v3
-
-export OS_CACERT=$ZS_CERT_FILE
-
-export OS_IDENTITY_API_VERSION=3
-
-export OS_IMAGE_API_VERSION=1
-
-export OS_VOLUME_API_VERSION=2
-
-export OS_USERNAME=$USER_NAME
-
-export OS_USER_DOMAIN_NAME=$USER_DOMAIN
-
-export OS_PASSWORD=$USER_PASSWD
-
-export OS_PROJECT_NAME=$USER_PROJECT
-
-export OS_PROJECT_DOMAIN_NAME=$PROJECT_DOMAIN
-
-export OS_REGION='Morrisville'
-
+USER_NAME=adminuser <br />
+USER_PASSWD=mypass <br />
+USER_DOMAIN=admin.local <br />
+PROJECT_DOMAIN=admin.local <br />
+USER_PROJECT=zs_default <br />
+USER_REGION='BestRegion' <br />
+ZS_CERT_FILE=~/zs_Certificate_ca.bundle <br />
+export OS_AUTH_URL=https://console.zerostack.com/os/d99afe93-7355-4660-ad02-724db405e4f4/regions/73678ac1-8a38-4968-a912-f833de58f44d/keystone/v3 <br />
+export OS_CACERT=$ZS_CERT_FILE <br />
+export OS_IDENTITY_API_VERSION=3 <br />
+export OS_IMAGE_API_VERSION=1 <br />
+export OS_VOLUME_API_VERSION=2 <br />
+export OS_USERNAME=$USER_NAME <br />
+export OS_USER_DOMAIN_NAME=$USER_DOMAIN <br />
+export OS_PASSWORD=$USER_PASSWD <br />
+export OS_PROJECT_NAME=$USER_PROJECT <br />
+export OS_PROJECT_DOMAIN_NAME=$PROJECT_DOMAIN <br />
+export OS_REGION='BestRegion' <br />
+<br />
 NOTE: This is a beta and has only been tested with a cloud admin account. This is a very flat script with no bells and whistles.
