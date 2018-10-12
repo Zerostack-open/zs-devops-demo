@@ -1,17 +1,17 @@
 # Devops deploy prototype
-
+<br />
 Use this script to quickly deploy a "skeleton" devops environemnt.
-
+<br />
 ## What the script does:
-* Creates a devops BU
-* Crates all of the projects layed out in the overview diagram
-* Creates all of the instances needed in the environemnt
-* Deploys a Jenkins and Gitlab App stack in the pipeline project.
+1. Creates a devops BU <br />
+2. Crates all of the projects layed out in the overview diagram <br />
+3. Creates all of the instances needed in the environemnt <br />
+4. Deploys a Jenkins and Gitlab App stack in the pipeline project <br />
 
 ## What the script does not do:
-* Configure the environemnt
-* Configure the Gitlab or Jenkins App stacks
-* Build an actual dev pipline.
+1. Configure the environemnt <br />
+2. Configure the Gitlab or Jenkins App stacks <br />
+3. Build an actual dev pipline <br />
 
 ## How to run
 1. Download the RC file and the keyfile form Zerostack
